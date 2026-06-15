@@ -1,0 +1,44 @@
+# Logs & System Files
+*.log
+.DS_Store
+Thumbs.db
+
+# Laravel Environment Files (Sangat sensitif, jangan di-push!)
+.env
+.env.backup
+.env.production
+
+# IDE & Editor Configurations
+/.cursor/
+/.idea
+/.nova
+/.vscode
+/.zed
+.phpactor.json
+
+# Cache & Testing
+.phpunit.result.cache
+/.codex
+/.phpunit.cache
+
+# Dependencies (Otomatis dibuat oleh Composer & NPM di server)
+/vendor
+/node_modules
+/auth.json
+
+# Laravel Storage & Uploads
+/public/storage
+/storage/*.key
+/storage/pail
+
+# Assets Compilation (Vite)
+# CATATAN VPS: Jika RAM VPS < 2GB, berikan tanda pagar (#) pada baris '/public/build' di bawah,
+# lalu jalankan 'npm run build' di lokal komputer Anda dan push folder tersebut ke Git.
+/public/build
+/public/hot
+
+# Miscellaneous
+_ide_helper.php
+Homestead.json
+Homestead.yaml
+
