@@ -1,4 +1,4 @@
-# Smart Parking IoT System - Comprehensive Documentation
+# Smart Parking IoT System 
 
 An operational Laravel 13 smart parking system designed with an IoT integration (ESP32 RFID reader, thermal printing, and gate screen), extended with a **Student Role**, **Mobile API**, and **Top-Up Approval Workflow**.
 
