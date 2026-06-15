@@ -120,15 +120,6 @@
                 </form>
             </div>
 
-            {{-- Footer Info --}}
-            <div class="text-center mt-6 space-y-2">
-                <p class="text-xs text-slate-600">
-                    Admin: <span class="text-slate-400 font-mono">admin@parking.local</span> / <span class="text-slate-400 font-mono">password</span>
-                </p>
-                <p class="text-xs text-slate-600">
-                    Display: <span class="text-slate-400 font-mono">display@parking.local</span> / <span class="text-slate-400 font-mono">display123</span>
-                </p>
-            </div>
         </div>
     </div>
 </body>
