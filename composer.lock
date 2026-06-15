@@ -4486,7 +4486,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4",
+                "php": ">=8.3",
                 "psr/clock": "^1.0"
             },
             "provide": {
@@ -4563,7 +4563,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4",
+                "php": ">=8.3",
                 "symfony/polyfill-mbstring": "^1.0",
                 "symfony/service-contracts": "^2.5|^3",
                 "symfony/string": "^7.4|^8.0"
