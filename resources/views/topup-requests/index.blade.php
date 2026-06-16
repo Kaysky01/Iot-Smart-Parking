@@ -143,8 +143,8 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-center" id="actions-cell-{{ $req->id }}">
-                            @if($req->status === 'pending')
-                                <div class="flex items-center justify-center gap-2">
+                            <div class="flex items-center justify-center gap-2">
+                                @if($req->status === 'pending')
                                     <button onclick="approveRequest({{ $req->id }})"
                                         class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold text-[var(--app-success)] bg-[var(--app-success-soft)] hover:brightness-95 transition-all border border-[color-mix(in_srgb,var(--app-success)_20%,transparent)]">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -155,15 +155,19 @@
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         Reject
                                     </button>
-                                </div>
-                            @else
-                                <span class="text-[11px] font-medium text-[var(--app-text-muted)]">
-                                    {{ $req->approver?->name ?? '-' }}
-                                    @if($req->approved_at)
-                                        <br>{{ $req->approved_at->format('d M H:i') }}
-                                    @endif
-                                </span>
-                            @endif
+                                @else
+                                    <span class="text-[11px] font-medium text-[var(--app-text-muted)] mr-2">
+                                        {{ $req->approver?->name ?? '-' }}
+                                        @if($req->approved_at)
+                                            <br>{{ $req->approved_at->format('d M H:i') }}
+                                        @endif
+                                    </span>
+                                @endif
+                                <button onclick="deleteRequest({{ $req->id }})"
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-[var(--app-text-muted)] hover:text-[var(--app-danger)] hover:bg-[var(--app-danger-soft)] transition-colors border border-transparent hover:border-[color-mix(in_srgb,var(--app-danger)_20%,transparent)]" title="Delete record">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -357,6 +361,36 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }, 200);
+    }
+
+    // Delete Request
+    async function deleteRequest(id) {
+        if (!confirm('Are you sure you want to delete this top-up request record? This action cannot be undone.')) return;
+
+        try {
+            const res = await fetch(`/topup-requests/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF,
+                    'Accept': 'application/json',
+                }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                if (window.showToast) window.showToast('✅ Top-up request deleted.', 'success');
+                const row = document.getElementById(`request-row-${id}`);
+                if (row) {
+                    row.classList.add('opacity-0', 'scale-95', 'transform', 'transition-all', 'duration-300');
+                    setTimeout(() => row.remove(), 300);
+                } else {
+                    setTimeout(() => location.reload(), 500);
+                }
+            } else {
+                if (window.showToast) window.showToast(data.message || 'Failed to delete', 'error');
+            }
+        } catch (e) {
+            if (window.showToast) window.showToast('Network error', 'error');
+        }
     }
 
     // Real-time updates

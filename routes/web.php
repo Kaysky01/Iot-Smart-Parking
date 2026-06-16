@@ -56,6 +56,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/topup-requests', [TopUpRequestController::class, 'index'])->name('topup-requests.index');
     Route::post('/topup-requests/{topupRequest}/approve', [TopUpRequestController::class, 'approve'])->name('topup-requests.approve');
     Route::post('/topup-requests/{topupRequest}/reject', [TopUpRequestController::class, 'reject'])->name('topup-requests.reject');
+    Route::delete('/topup-requests/{topupRequest}', [TopUpRequestController::class, 'destroy'])->name('topup-requests.destroy');
 });
 
 // =======================================

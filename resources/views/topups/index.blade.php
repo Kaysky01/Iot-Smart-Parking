@@ -326,8 +326,13 @@
                                 @elseif($topup->method === 'qris')
                                     <span class="app-badge-neutral text-purple-600 bg-purple-100 dark:text-purple-400 dark:bg-purple-900/30">QRIS</span>
                                 @else
-                                    <span class="app-badge-neutral">Other</span>
+                                    <span class="app-badge-neutral text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-gray-800">Other</span>
                                 @endif
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="deleteTopup({{ $topup->id }})" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-[var(--app-text-muted)] hover:text-[var(--app-danger)] hover:bg-[var(--app-danger-soft)] transition-colors border border-transparent hover:border-[color-mix(in_srgb,var(--app-danger)_20%,transparent)]" title="Delete record">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
                             </td>
                         </tr>
                         @empty
@@ -745,6 +750,11 @@
                 <td class="px-6 py-4">
                     ${methodBadges[topup.method] || methodBadges.other}
                 </td>
+                <td class="px-6 py-4 text-center">
+                    <button onclick="deleteTopup(${topup.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-[var(--app-text-muted)] hover:text-[var(--app-danger)] hover:bg-[var(--app-danger-soft)] transition-colors border border-transparent hover:border-[color-mix(in_srgb,var(--app-danger)_20%,transparent)]" title="Delete record">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </td>
             `;
 
             tbody.insertBefore(tr, tbody.firstChild);
@@ -754,5 +764,35 @@
             }
         }
     });
+
+    // Delete Top Up
+    async function deleteTopup(id) {
+        if (!confirm('Are you sure you want to delete this top-up record? NOTE: This will NOT revert the student\'s balance.')) return;
+
+        try {
+            const res = await fetch(`/topups/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                if (window.showToast) window.showToast('✅ Top-up record deleted.', 'success');
+                const row = document.getElementById(`topup-row-${id}`);
+                if (row) {
+                    row.classList.add('opacity-0', 'scale-95', 'transform', 'transition-all', 'duration-300');
+                    setTimeout(() => row.remove(), 300);
+                } else {
+                    setTimeout(() => location.reload(), 500);
+                }
+            } else {
+                if (window.showToast) window.showToast(data.message || 'Failed to delete', 'error');
+            }
+        } catch (e) {
+            if (window.showToast) window.showToast('Network error', 'error');
+        }
+    }
 </script>
 @endpush

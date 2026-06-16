@@ -223,4 +223,34 @@ class TopUpRequestController extends Controller
 
         return response()->json($requests);
     }
+
+    /**
+     * Delete a top-up request (Admin).
+     */
+    public function destroy(TopUpRequest $topupRequest): JsonResponse
+    {
+        // Delete the proof image from storage if exists
+        if ($topupRequest->payment_proof_path) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($topupRequest->payment_proof_path);
+        }
+
+        $topupRequest->delete();
+
+        // Log activity for deletion
+        ActivityLog::log(
+            'topup',
+            "Top-up request #" . $topupRequest->id . " deleted by admin",
+            $topupRequest->user_id,
+            [
+                'topup_request_id' => $topupRequest->id,
+                'amount' => $topupRequest->amount,
+                'admin_id' => auth()->id(),
+            ]
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Top-up request berhasil dihapus.'
+        ]);
+    }
 }

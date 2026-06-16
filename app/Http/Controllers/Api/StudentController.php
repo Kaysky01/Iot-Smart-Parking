@@ -183,7 +183,7 @@ class StudentController extends Controller
 
         $user = $request->user();
         $file = $request->file('payment_proof');
-        
+
         // Save file as public with random uuid name
         $extension = $file->getClientOriginalExtension();
         $fileName = Str::uuid() . '.' . $extension;

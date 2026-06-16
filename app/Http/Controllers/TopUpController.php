@@ -191,4 +191,19 @@ class TopUpController extends Controller
 
         return response()->json($topups);
     }
+
+    /**
+     * Delete a top-up (Admin only).
+     * CAUTION: This does NOT automatically revert the student's balance!
+     * It only removes the historical record. Use with care.
+     */
+    public function destroy(TopUp $topup)
+    {
+        $topup->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Top-up record berhasil dihapus (Saldo mahasiswa tidak berubah).'
+        ]);
+    }
 }
