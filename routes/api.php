@@ -65,4 +65,6 @@ Route::middleware('auth:sanctum')->prefix('student')->group(function () {
     Route::get('/transactions', [StudentController::class, 'transactions']);
     Route::get('/topups', [StudentController::class, 'topups']);
     Route::post('/topups', [StudentController::class, 'createTopup']);
+    Route::get('/notifications', [StudentController::class, 'notifications']);
+    Route::post('/notifications/mark-read', [StudentController::class, 'markNotificationsRead']);
 });

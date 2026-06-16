@@ -94,6 +94,11 @@ class TopUpRequestController extends Controller
                     ]
                 );
 
+                // Notify User
+                if ($user) {
+                    $user->notify(new \App\Notifications\TopUpApprovedNotification($lockedRequest));
+                }
+
                 return $lockedRequest->fresh(['user', 'approver']);
             });
 
@@ -169,6 +174,11 @@ class TopUpRequestController extends Controller
                         'rejection_reason' => $validated['rejection_reason'] ?? null,
                     ]
                 );
+
+                // Notify User
+                if ($lockedRequest->user) {
+                    $lockedRequest->user->notify(new \App\Notifications\TopUpRejectedNotification($lockedRequest));
+                }
 
                 return $lockedRequest;
             });

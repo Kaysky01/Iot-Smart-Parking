@@ -51,6 +51,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/topups', [TopUpController::class, 'index'])->name('topups.index');
     Route::post('/topups', [TopUpController::class, 'store'])->name('topups.store');
     Route::get('/topups/search-users', [TopUpController::class, 'searchUsers'])->name('topups.search-users');
+    Route::delete('/topups/{topup}', [TopUpController::class, 'destroy'])->name('topups.destroy');
 
     // Top-up Requests (Student Approval Workflow)
     Route::get('/topup-requests', [TopUpRequestController::class, 'index'])->name('topup-requests.index');

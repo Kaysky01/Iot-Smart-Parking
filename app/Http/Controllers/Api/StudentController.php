@@ -216,4 +216,41 @@ class StudentController extends Controller
             ],
         ], 201);
     }
+
+    /**
+     * GET /api/student/notifications
+     */
+    public function notifications(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $notifications = $user->notifications()
+            ->orderByDesc('created_at')
+            ->paginate(15)
+            ->through(fn($n) => [
+                'id' => $n->id,
+                'type' => $n->data['type'] ?? 'notification',
+                'message' => $n->data['message'] ?? '',
+                'data' => $n->data,
+                'read_at' => $n->read_at ? $n->read_at->toIso8601String() : null,
+                'created_at' => $n->created_at->toIso8601String(),
+            ]);
+
+        return response()->json([
+            'unread_count' => $user->unreadNotifications()->count(),
+            'notifications' => $notifications
+        ]);
+    }
+
+    /**
+     * POST /api/student/notifications/mark-read
+     */
+    public function markNotificationsRead(Request $request): JsonResponse
+    {
+        $request->user()->unreadNotifications->markAsRead();
+
+        return response()->json([
+            'message' => 'All notifications marked as read'
+        ]);
+    }
 }

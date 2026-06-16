@@ -121,6 +121,9 @@ class TopUpController extends Controller
             // Broadcast the event
             event(new \App\Events\TopUpCreatedEvent($topup));
 
+            // Notify user
+            $user->notify(new \App\Notifications\TopUpCreatedNotification($topup));
+
             return [
                 'topup' => $topup,
                 'user' => $user->fresh(),
