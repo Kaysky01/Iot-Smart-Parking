@@ -402,6 +402,8 @@ function refreshTransactionsTable() {
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allow your team to quickly build robust real-time web applications.
+ *
+ * NOTE: Echo is already initialized at the top of this file (lines 1-15).
+ * Do NOT import './echo' here — it would override window.Echo and
+ * orphan all event listeners bound above.
  */
-
-import './echo';
