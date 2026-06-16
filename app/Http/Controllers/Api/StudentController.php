@@ -68,6 +68,27 @@ class StudentController extends Controller
     }
 
     /**
+     * POST /api/student/change-password
+     */
+    public function changePassword(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user->update([
+            'password' => \Illuminate\Support\Facades\Hash::make($validated['password'])
+        ]);
+
+        return response()->json([
+            'message' => 'Password berhasil diperbarui'
+        ]);
+    }
+
+    /**
      * GET /api/student/balance
      */
     public function balance(Request $request): JsonResponse

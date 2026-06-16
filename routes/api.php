@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->prefix('student')->group(function () {
     Route::get('/profile', [StudentController::class, 'profile']);
     Route::patch('/profile', [StudentController::class, 'updateProfile']);
     Route::put('/profile', [StudentController::class, 'updateProfile']);
+    Route::post('/change-password', [StudentController::class, 'changePassword']);
     Route::get('/balance', [StudentController::class, 'balance']);
     Route::get('/parking-history', [StudentController::class, 'parkingHistory']);
     Route::get('/transactions', [StudentController::class, 'transactions']);
