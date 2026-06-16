@@ -42,3 +42,9 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 
+# Agent & AI Tooling
+.claude/
+.claude
+.kilo/
+.kilo
+

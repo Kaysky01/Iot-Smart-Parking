@@ -1,4 +1,4 @@
-# Smart Parking IoT System 
+# Smart Parking IoT System
 
 An operational Laravel 13 smart parking system designed with an IoT integration (ESP32 RFID reader, thermal printing, and gate screen), extended with a **Student Role**, **Mobile API**, and **Top-Up Approval Workflow**.
 
@@ -195,7 +195,7 @@ All Mobile API endpoints are prefixed with `/api`. Authenticated endpoints requi
       "data": {
         "profile": {
           "id": 1,
-          "name": "Andika Sanddi Pranata",
+          "name": "Andika Sandi Pranata",
           "npm": "24783072",
           "rfid_uid": "C6 EF 25 07",
           "rfid_status": "active",
@@ -206,7 +206,25 @@ All Mobile API endpoints are prefixed with `/api`. Authenticated endpoints requi
     }
     ```
 
-#### 4. View Balance
+#### 5. Change Password
+*   **Endpoint:** `POST /api/student/change-password`
+*   **Headers:** `Authorization: Bearer <token>`, `Content-Type: application/json`
+*   **Request Body:**
+    ```json
+    {
+      "current_password": "old_password",
+      "password": "new_password",
+      "password_confirmation": "new_password"
+    }
+    ```
+*   **Response (200 OK):**
+    ```json
+    {
+      "message": "Password berhasil diperbarui"
+    }
+    ```
+
+#### 6. View Balance
 *   **Endpoint:** `GET /api/student/balance`
 *   **Headers:** `Authorization: Bearer <token>`
 *   **Response (200 OK):**
@@ -216,7 +234,7 @@ All Mobile API endpoints are prefixed with `/api`. Authenticated endpoints requi
     }
     ```
 
-#### 5. Parking History
+#### 7. Parking History
 *   **Endpoint:** `GET /api/student/parking-history`
 *   **Headers:** `Authorization: Bearer <token>`
 *   **Query Params (Optional):** `page` (int)
@@ -241,7 +259,7 @@ All Mobile API endpoints are prefixed with `/api`. Authenticated endpoints requi
     }
     ```
 
-#### 6. Transaction History
+#### 8. Transaction History
 *   **Endpoint:** `GET /api/student/transactions`
 *   **Headers:** `Authorization: Bearer <token>`
 *   **Response (200 OK):**
@@ -265,7 +283,7 @@ All Mobile API endpoints are prefixed with `/api`. Authenticated endpoints requi
 
 ### 💳 Top-Up Requests
 
-#### 7. View Top-Up Request History
+#### 9. View Top-Up Request History
 *   **Endpoint:** `GET /api/student/topups`
 *   **Headers:** `Authorization: Bearer <token>`
 *   **Response (200 OK):**
@@ -286,7 +304,7 @@ All Mobile API endpoints are prefixed with `/api`. Authenticated endpoints requi
     }
     ```
 
-#### 8. Create Top-Up Request
+#### 10. Create Top-Up Request
 *   **Endpoint:** `POST /api/student/topups`
 *   **Headers:** `Authorization: Bearer <token>`
 *   **Content-Type:** `multipart/form-data`
